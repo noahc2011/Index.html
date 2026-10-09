@@ -1,0 +1,368 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relationship Formula Questionnaire</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #1e293b;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 480px;
+            width: 100%;
+        }
+        h2 {
+            text-align: center;
+            color: #38bdf8;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 25px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #334155;
+            border-radius: 3px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #38bdf8;
+            width: 12.5%;
+            transition: width 0.3s ease;
+        }
+        .step-container {
+            display: none;
+        }
+        .step-container.active {
+            display: block;
+        }
+        .question-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #f8fafc;
+            margin-bottom: 8px;
+        }
+        .question-desc {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            background: #0f172a;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+        }
+        .slider-wrapper {
+            margin-bottom: 25px;
+        }
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 6px;
+        }
+        input[type="range"] {
+            width: 100%;
+            accent-color: #38bdf8;
+            cursor: pointer;
+        }
+        .current-value {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #38bdf8;
+            margin-bottom: 15px;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            flex: 1;
+            background-color: #0284c7;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #0369a1;
+        }
+        button.secondary {
+            background-color: #334155;
+        }
+        button.secondary:hover {
+            background-color: #475569;
+        }
+        .results-box {
+            display: none;
+            text-align: center;
+        }
+        .score {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4ade80;
+            margin: 15px 0;
+        }
+        .category {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #facc15;
+            margin-bottom: 10px;
+        }
+        .meaning {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Relationship Dynamics</h2>
+    <div class="subtitle">Step-by-Step Compatibility Diagnostic</div>
+    
+    <div class="progress-bar" id="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <!-- STEP 1: Compatibility -->
+    <div class="step-container active" id="step-1">
+        <div class="question-title">1. Compatibility</div>
+        <div class="question-desc"><strong>What it means:</strong> How well your core values, humor, long-term goals, and everyday lifestyle mesh together without friction.</div>
+        <div class="current-value"><span id="val-1">5</span> / 10</div>
+        <div class="slider-wrapper">
+            <input type="range" id="comp" min="1" max="10" value="5" oninput="updateVal(1, this.value)">
+            <div class="slider-labels"><span>Low Alignment (1)</span><span>Perfect Match (10)</span></div>
+        </div>
+        <div class="button-group">
+            <button onclick="nextStep(2)">Next</button>
+        </div>
+    </div>
+
+    <!-- STEP 2: Psychological Pillars -->
+    <div class="step-container" id="step-2">
+        <div class="question-title">2. Psychological Pillars</div>
+        <div class="question-desc"><strong>What it means:</strong> The strength of your mutual trust, emotional safety, clear communication, and how well you handle conflicts together.</div>
+        <div class="current-value"><span id="val-2">5</span> / 10</div>
+        <div class="slider-wrapper">
+            <input type="range" id="psych" min="1" max="10" value="5" oninput="updateVal(2, this.value)">
+            <div class="slider-labels"><span>Shaky Foundation (1)</span><span>Rock Solid (10)</span></div>
+        </div>
+        <div class="button-group">
+            <button class="secondary" onclick="prevStep(1)">Back</button>
+            <button onclick="nextStep(3)">Next</button>
+        </div>
+    </div>
+
+    <!-- STEP 3: Dopamine Spike -->
+    <div class="step-container" id="step-3">
+        <div class="question-title">3. Dopamine Spike</div>
+        <div class="question-desc"><strong>What it means:</strong> The excitement, anticipation, thrill, and sheer fun you feel when you're hanging out or talking.</div>
+        <div class="current-value"><span id="val-3">5</span> / 10</div>
+        <div class="slider-wrapper">
+            <input type="range" id="dop" min="1" max="10" value="5" oninput="updateVal(3, this.value)">
+            <div class="slider-labels"><span>Routine / Flat (1)</span><span>Electric Thrill (10)</span></div>
+        </div>
+        <div class="button-group">
+            <button class="secondary" onclick="prevStep(2)">Back</button>
+            <button onclick="nextStep(4)">Next</button>
+        </div>
+    </div>
+
+    <!-- STEP 4: Norepinephrine -->
+    <div class="step-container" id="step-4">
+        <div class="question-title">4. Norepinephrine (Energy & Alertness)</div>
+        <div class="question-desc"><strong>What it means:</strong> Mental alertness and high focus—how much energy, attention, and urgency you naturally give to each other.</div>
+        <div class="current-value"><span id="val-4">5</span> / 10</div>
+        <div class="slider-wrapper">
+            <input type="range" id="norepi" min="1" max="10" value="5" oninput="updateVal(4, this.value)">
+            <div class="slider-labels"><span>Distracted / Low (1)</span><span>Laser Focused (10)</span></div>
+        </div>
+        <div class="button-group">
+            <button class="secondary" onclick="prevStep(3)">Back</button>
+            <button onclick="nextStep(5)">Next</button>
+        </div>
+    </div>
+
+    <!-- STEP 5: Serotonin -->
+    <div class="step-container" id="step-5">
+        <div class="question-title">5. Serotonin Baseline (Volatility / Chaos)</div>
+        <div class="question-desc"><strong>What it means:</strong> Emotional volatility. <strong>1 is best</strong> (deep peace & calm stability), while <strong>10 is worst</strong> (high chaos/volatility which divides down the score).</div>
+        <div class="current-value"><span id="val-5">5</span> / 10</div>
+        <div class="slider-wrapper">
+            <input type="range" id="sero" min="1" max="10" value="5" oninput="updateVal(5, this.value)">
+            <div class="slider-labels"><span>Best / Deep Peace (1)</span><span>Worst / Volatile (10)</span></div>
+        </div>
+        <div class="button-group">
+            <button class="secondary" onclick="prevStep(4)">Back</button>
+            <button onclick="nextStep(6)">Next</button>
+        </div>
+    </div>
+
+    <!-- STEP 6: Oxytocin -->
+    <div class="step-container" id="step-6">
+        <div class="question-title">6. Oxytocin (Bonding & Warmth)</div>
+        <div class="question-desc"><strong>What it means:</strong> The bonding chemical—representing deep affection, warmth, physical comfort, and emotional attachment.</div>
+        <div class="current-value"><span id="val-6">5</span> / 10</div>
+        <div class="slider-wrapper">
+            <input type="range" id="oxy" min="1" max="10" value="5" oninput="updateVal(6, this.value)">
+            <div class="slider-labels"><span>Distant (1)</span><span>Deep Warmth (10)</span></div>
+        </div>
+        <div class="button-group">
+            <button class="secondary" onclick="prevStep(5)">Back</button>
+            <button onclick="nextStep(7)">Next</button>
+        </div>
+    </div>
+
+    <!-- STEP 7: Timing -->
+    <div class="step-container" id="step-7">
+        <div class="question-title">7. Timing Multiplier</div>
+        <div class="question-desc"><strong>What it means:</strong> Life alignment—whether your schedules, life stages, and current availability sync up smoothly to allow maximum time together.</div>
+        <div class="current-value"><span id="val-7">5</span> / 10</div>
+        <div class="slider-wrapper">
+            <input type="range" id="time" min="1" max="10" value="5" oninput="updateVal(7, this.value)">
+            <div class="slider-labels"><span>Bad Timing (1)</span><span>Perfect Window (10)</span></div>
+        </div>
+        <div class="button-group">
+            <button class="secondary" onclick="prevStep(6)">Back</button>
+            <button onclick="nextStep(8)">Next</button>
+        </div>
+    </div>
+
+    <!-- STEP 8: Distance -->
+    <div class="step-container" id="step-8">
+        <div class="question-title">8. Distance / Friction</div>
+        <div class="question-desc"><strong>What it means:</strong> Physical distance or external hurdles/friction acting as resistance against the connection.</div>
+        <div class="current-value"><span id="val-8">5</span> / 10</div>
+        <div class="slider-wrapper">
+            <input type="range" id="dist" min="1" max="10" value="5" oninput="updateVal(8, this.value)">
+            <div class="slider-labels"><span>Low Friction / Close (1)</span><span>High Distance (10)</span></div>
+        </div>
+        <div class="button-group">
+            <button class="secondary" onclick="prevStep(7)">Back</button>
+            <button onclick="calculateResults()">Calculate Score</button>
+        </div>
+    </div>
+
+    <!-- RESULTS BOX -->
+    <div class="results-box" id="results-box">
+        <div class="question-title">Diagnostic Results</div>
+        <div class="score" id="final-score">0</div>
+        <div class="category" id="final-category">--</div>
+        <div class="meaning" id="final-meaning">--</div>
+        <button class="secondary" onclick="resetQuiz()">Retake Questionnaire</button>
+    </div>
+
+</div>
+
+<script>
+function updateVal(step, val) {
+    document.getElementById('val-' + step).innerText = val;
+}
+
+function nextStep(step) {
+    document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+    document.getElementById('step-' + step).classList.add('active');
+    let progressPercent = (step / 8) * 100;
+    document.getElementById('progress-fill').style.width = progressPercent + '%';
+}
+
+function prevStep(step) {
+    document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+    document.getElementById('step-' + step).classList.add('active');
+    let progressPercent = (step / 8) * 100;
+    document.getElementById('progress-fill').style.width = progressPercent + '%';
+}
+
+function calculateResults() {
+    let comp = parseFloat(document.getElementById('comp').value);
+    let psych = parseFloat(document.getElementById('psych').value);
+    let dop = parseFloat(document.getElementById('dop').value);
+    let norepi = parseFloat(document.getElementById('norepi').value);
+    let sero = parseFloat(document.getElementById('sero').value);
+    let oxy = parseFloat(document.getElementById('oxy').value);
+    let time = parseFloat(document.getElementById('time').value);
+    let dist = parseFloat(document.getElementById('dist').value);
+
+    // Safeguard against division by zero
+    if (sero === 0) sero = 0.1;
+    if (dist === 0) dist = 0.1;
+
+    // Formula substitution: [ (Comp x Psych x (Dop x Norepi / Sero)) x Oxy x Time ] / (Dist x 10)
+    // Where sero: 1 = best (calm/low division), 10 = worst (high volatility/high division)
+    let neuroChemFraction = (dop * norepi) / sero;
+    let numerator = (comp * psych * neuroChemFraction) * oxy * time;
+    let denominator = dist * 10;
+    let rawResult = numerator / denominator;
+
+    let score = Math.round(rawResult);
+    if (score > 100000) score = 100000;
+
+    let category = "";
+    let meaning = "";
+
+    if (score >= 80000) {
+        category = "Perfect Match";
+        meaning = "An elite, seamless synchronization. Chemical drives and deep bonding completely obliterate any external friction.";
+    } else if (score >= 40000) {
+        category = "Deeply Connected";
+        meaning = "A powerful, highly stable bond. Strong psychological pillars and high mutual attraction keep the connection anchored tightly.";
+    } else if (score >= 10000) {
+        category = "Steady Current";
+        meaning = "A solid and reliable dynamic. Good momentum moving forward with healthy balance across communication and time.";
+    } else if (score >= 1000) {
+        category = "Mild Spark";
+        meaning = "An emerging dynamic with potential, but external distance, timing, or shifting variables create noticeable waves.";
+    } else {
+        category = "Cold";
+        meaning = "High resistance and friction are dampening the connection. The baseline variables need a much stronger spark.";
+    }
+
+    document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+    document.getElementById('progress-bar').style.display = 'none';
+    document.getElementById('final-score').innerText = score.toLocaleString() + " / 100,000";
+    document.getElementById('final-category').innerText = category;
+    document.getElementById('final-meaning').innerText = meaning;
+    document.getElementById('results-box').style.display = 'block';
+}
+
+function resetQuiz() {
+    document.getElementById('results-box').style.display = 'none';
+    document.getElementById('progress-bar').style.display = 'block';
+    nextStep(1);
+}
+</script>
+
+</body>
+</html>
+
